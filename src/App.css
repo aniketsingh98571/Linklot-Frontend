@@ -1,0 +1,23 @@
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#root > div {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.bg-linklot-background-gray {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
