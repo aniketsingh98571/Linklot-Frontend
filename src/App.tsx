@@ -27,6 +27,25 @@ const data: LinklotData = {
       color: "#F9C557",
     },
   ],
+  content: [
+    {
+      link: "https://www.google.com",
+      title: "Google",
+      description: "Google is a search engine",
+      image:
+        "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
+      tags: [
+        {
+          id: 1,
+          name: "Productivity",
+          color: "#02B99A",
+        },
+      ],
+      thumbnail:
+        "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
+      hashtags: ["#google", "#search", "#engine"],
+    },
+  ],
 };
 
 function App() {

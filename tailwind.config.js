@@ -17,6 +17,7 @@ export default {
         "linklot-background-white": "#FFFFFF",
         "linklot-background-gray": "#F7F7FA",
         "linklot-input-background-light": "#FCFCFC",
+        "linklot-hashtags-background": "#F0F0F5",
       },
       borderColor: {
         "linklot-border-gray": "#D5D7DA",

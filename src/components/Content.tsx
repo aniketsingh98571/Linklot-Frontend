@@ -1,4 +1,5 @@
 import { useState } from "react";
+import logo from "../assets/logo.svg";
 
 const Content = () => {
   const [link, setLink] = useState("");
@@ -8,8 +9,8 @@ const Content = () => {
   };
 
   return (
-    <div className="pt-6">
-      <div className="bg-linklot-background-white rounded-lg p-4 w-1/3 border border-linklot-border-gray">
+    <div className="pt-6 flex items-stretch gap-4 h-[500px]">
+      <div className="bg-linklot-background-white rounded-lg p-4 w-1/3 border border-linklot-border-gray h-full">
         <div className="flex items-center gap-2 pb-16">
           <div className="w-2 h-2 bg-[#FE8463] rounded-full"></div>
           <div className="w-2 h-2 bg-[#F9C557] rounded-full"></div>
@@ -58,6 +59,84 @@ const Content = () => {
             add
           </span>
           <p className="text-linklot-hashtags-text text-sm">Add Tag</p>
+        </div>
+      </div>
+      <div className="bg-linklot-background-white rounded-lg p-4 w-1/3 border border-linklot-border-gray h-full">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col items-center gap-1">
+            <div className="w-1 h-1 bg-linklot-background-black rounded-full"></div>
+            <div className="w-1 h-1 bg-linklot-background-black rounded-full"></div>
+            <div className="w-1 h-1 bg-linklot-background-black rounded-full"></div>
+          </div>
+          <div className="w-9/12">
+            <div className="w-full border border-linklot-border-gray rounded-md p-2 bg-linklot-input-background-light">
+              <p className="text-center text-linklot-icon-color">
+                www.google.com
+              </p>
+            </div>
+          </div>
+          <div>
+            <span className="material-symbols-rounded !text-2xl text-linklot-icon-color">
+              open_in_new
+            </span>
+          </div>
+        </div>
+        <div>
+          <div>
+            <div className="mb-4">
+              <img
+                src="https://picsum.photos/seed/picsum/1200/630"
+                alt=""
+                className="w-full h-[200px] object-cover rounded-md"
+              />
+            </div>
+            <div className="flex items-center gap-1">
+              <img src={logo} alt="" />
+              <p className="text-linklot-text-title text-base font-semibold">
+                Linklot
+              </p>
+            </div>
+            <div className="mb-4">
+              <p className="text-linklot-text-subtitle font-normal text-sm">
+                Linklot is a platform for creating and managing links.
+              </p>
+            </div>
+          </div>
+          <div>
+            <div>
+              <div>
+                <div className="flex items-center gap-1 cursor-pointer">
+                  <span
+                    className="material-symbols-rounded !text-xl material-symbols-filled"
+                    style={{ color: "red" }}
+                  >
+                    folder
+                  </span>
+                  <span className="text-linklot-hashtags-text text-sm">
+                    Dev Tools
+                  </span>
+                </div>
+              </div>
+              <hr className="my-4 border-t border-linklot-border-gray" />
+              <div>
+                <div className="flex items-center gap-2">
+                  <div className="flex bg-linklot-input-background-light items-center gap-1 justify-center cursor-pointer rounded-xl px-2 py-1 border border-linklot-border-gray">
+                    <span className="material-symbols-rounded !text-xs material-symbols-filled text-linklot-hashtags-text">
+                      add
+                    </span>
+                    <p className="text-linklot-hashtags-text text-xs">
+                      Add Tag
+                    </p>
+                  </div>
+                  <div>
+                    <div className="bg-linklot-hashtags-background inline-block rounded-xl px-2 py-1 border border-linklot-border-gray">
+                      <p className="text-linklot-hashtags-text text-xs">#ai</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
