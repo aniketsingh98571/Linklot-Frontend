@@ -43,7 +43,12 @@ const data: LinklotData = {
       ],
       thumbnail:
         "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
-      hashtags: ["#google", "#search", "#engine"],
+      hashtags: [
+        {
+          id: 1,
+          name: "google",
+        },
+      ],
     },
   ],
 };

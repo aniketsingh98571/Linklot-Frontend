@@ -3,6 +3,10 @@ export type Tags = {
   name: string;
   color: string;
 };
+export type Hashtag = {
+  id: number;
+  name: string;
+};
 export type Content = {
   link: string;
   title: string;
@@ -10,7 +14,7 @@ export type Content = {
   image: string;
   tags: Tags[];
   thumbnail: string;
-  hashtags: string[];
+  hashtags: Hashtag[];
 };
 
 export type LinklotData = {
