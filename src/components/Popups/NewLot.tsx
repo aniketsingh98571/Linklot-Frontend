@@ -69,6 +69,7 @@ const NewLot = ({ isNew, closeLot }: NewLotProps) => {
           <button
             className="px-4 py-2 rounded bg-linklot-background-white border border-linklot-border-gray cursor-pointer"
             type="button"
+            onClick={closeLot}
           >
             Cancel
           </button>

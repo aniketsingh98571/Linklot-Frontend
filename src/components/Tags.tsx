@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { LinklotData } from "../types";
 import NewLot from "./Popups/NewLot";
+import DeleteLot from "./Popups/DeleteLot";
 
 const sortOptions = ["Recent", "Oldest"];
 
@@ -10,6 +11,7 @@ const Tags = ({ data }: { data: LinklotData }) => {
     open: false,
     isNew: true,
   });
+  const [deleteLotOpen, setDeleteLotOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(sortOptions[0]);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [tagMenuOpen, setTagMenuOpen] = useState<{
@@ -82,6 +84,7 @@ const Tags = ({ data }: { data: LinklotData }) => {
           closeLot={() => setNewLotOpen({ open: false, isNew: true })}
         />
       )}
+      {deleteLotOpen && <DeleteLot closeLot={() => setDeleteLotOpen(false)} />}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4 flex-wrap">
           <button className="cursor-pointer bg-linklot-background-black text-linklot-text-white flex items-center gap-1 py-1 px-2 rounded-md">
@@ -138,9 +141,10 @@ const Tags = ({ data }: { data: LinklotData }) => {
                       Edit
                     </button>
                     <button
-                      className="flex items-center gap-2 w-full px-4 py-1 text-red-500 hover:bg-linklot-background-black/10 rounded-b-md"
+                      className="flex cursor-pointer items-center gap-2 w-full px-4 py-1 text-red-500 hover:bg-linklot-background-black/10 rounded-b-md"
                       onClick={() => {
                         // handle delete logic here
+                        setDeleteLotOpen(true);
                         handleTagMenuClose();
                       }}
                     >
