@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from "react";
-import logo from "../assets/logo.svg";
 import EditLink from "./Popups/EditLink";
 import DeleteLink from "./Popups/DeleteLink";
+import { LinklotData } from "../types";
 
-const Content = () => {
+const Content = ({ data }: { data: LinklotData }) => {
   const [link, setLink] = useState("");
   const [editLinkOpen, setEditLinkOpen] = useState(false);
   const [deleteLinkOpen, setDeleteLinkOpen] = useState(false);
@@ -85,110 +85,124 @@ const Content = () => {
           <p className="text-linklot-hashtags-text text-sm">Add Tag</p>
         </div>
       </div>
-      <div className="bg-linklot-background-white rounded-lg p-4 w-1/3 border border-linklot-border-gray h-full">
-        <div className="flex items-center justify-between mb-4">
-          <div
-            className="relative flex flex-col items-center gap-1 cursor-pointer"
-            onClick={() => setMenuOpen((open) => !open)}
-          >
-            <div className="w-1 h-1 bg-linklot-background-black rounded-full"></div>
-            <div className="w-1 h-1 bg-linklot-background-black rounded-full"></div>
-            <div className="w-1 h-1 bg-linklot-background-black rounded-full"></div>
-            {menuOpen && (
-              <div
-                ref={menuRef}
-                className="absolute left-6 top-0 w-32 bg-linklot-background-white border border-linklot-border-gray rounded-md shadow-lg z-10"
-              >
-                <button
-                  className="flex cursor-pointer text-linklot-text-title text-sm items-center gap-2 w-full px-4 py-1 hover:bg-linklot-background-black hover:text-linklot-text-white rounded-t-md"
-                  onClick={() => {
-                    setMenuOpen(false);
-                    setEditLinkOpen(true);
-                  }}
+      {data.content.map((content) => (
+        <div className="bg-linklot-background-white rounded-lg p-4 w-1/3 border border-linklot-border-gray h-full">
+          <div className="flex items-center justify-between mb-4">
+            <div
+              className="relative flex flex-col items-center gap-1 cursor-pointer"
+              onClick={() => setMenuOpen((open) => !open)}
+            >
+              <div className="w-1 h-1 bg-linklot-background-black rounded-full"></div>
+              <div className="w-1 h-1 bg-linklot-background-black rounded-full"></div>
+              <div className="w-1 h-1 bg-linklot-background-black rounded-full"></div>
+              {menuOpen && (
+                <div
+                  ref={menuRef}
+                  className="absolute left-6 top-0 w-32 bg-linklot-background-white border border-linklot-border-gray rounded-md shadow-lg z-10"
                 >
-                  <span className="material-symbols-rounded !text-base">
-                    edit
-                  </span>
-                  Edit
-                </button>
-                <button
-                  className="flex cursor-pointer items-center gap-2 w-full px-4 py-1 text-red-500 hover:bg-linklot-background-black/10 rounded-b-md"
-                  onClick={() => {
-                    setMenuOpen(false);
-                    setDeleteLinkOpen(true);
-                  }}
-                >
-                  <span className="material-symbols-rounded !text-base">
-                    delete
-                  </span>
-                  Delete
-                </button>
+                  <button
+                    className="flex cursor-pointer text-linklot-text-title text-sm items-center gap-2 w-full px-4 py-1 hover:bg-linklot-background-black hover:text-linklot-text-white rounded-t-md"
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setEditLinkOpen(true);
+                    }}
+                  >
+                    <span className="material-symbols-rounded !text-base">
+                      edit
+                    </span>
+                    Edit
+                  </button>
+                  <button
+                    className="flex cursor-pointer items-center gap-2 w-full px-4 py-1 text-red-500 hover:bg-linklot-background-black/10 rounded-b-md"
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setDeleteLinkOpen(true);
+                    }}
+                  >
+                    <span className="material-symbols-rounded !text-base">
+                      delete
+                    </span>
+                    Delete
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className="w-9/12">
+              <div className="w-full border border-linklot-border-gray rounded-md p-2 bg-linklot-input-background-light">
+                <p className="text-center text-linklot-icon-color">
+                  {content.link}
+                </p>
               </div>
-            )}
-          </div>
-          <div className="w-9/12">
-            <div className="w-full border border-linklot-border-gray rounded-md p-2 bg-linklot-input-background-light">
-              <p className="text-center text-linklot-icon-color">
-                www.google.com
-              </p>
             </div>
-          </div>
-          <div className="flex items-center">
-            <span className="material-symbols-rounded !text-2xl text-linklot-icon-color">
-              open_in_new
-            </span>
-          </div>
-        </div>
-        <div>
-          <div>
-            <div className="mb-4">
-              <img
-                src="https://picsum.photos/seed/picsum/1200/630"
-                alt=""
-                className="w-full h-[200px] object-cover rounded-md"
-              />
-            </div>
-            <div className="flex items-center gap-1">
-              <img src={logo} alt="" />
-              <p className="text-linklot-text-title text-base font-semibold">
-                Linklot
-              </p>
-            </div>
-            <div className="mb-4">
-              <p className="text-linklot-text-subtitle font-normal text-sm">
-                Linklot is a platform for creating and managing links.
-              </p>
+            <div className="flex items-center">
+              <span className="material-symbols-rounded !text-2xl text-linklot-icon-color">
+                open_in_new
+              </span>
             </div>
           </div>
           <div>
             <div>
-              <div>
-                <div className="flex items-center gap-1 cursor-pointer">
-                  <span
-                    className="material-symbols-rounded !text-xl material-symbols-filled"
-                    style={{ color: "red" }}
-                  >
-                    folder
-                  </span>
-                  <span className="text-linklot-hashtags-text text-sm">
-                    Dev Tools
-                  </span>
-                </div>
+              <div className="mb-4">
+                <img
+                  src={content.thumbnail}
+                  alt=""
+                  className="w-full h-[200px] object-cover rounded-md"
+                />
               </div>
-              <hr className="my-4 border-t border-linklot-border-gray" />
+              <div className="flex items-center gap-1">
+                <div className="w-[50px] h-[50px]">
+                  <img
+                    src={content.image}
+                    alt=""
+                    className="w-full h-full object-cover rounded-md object-cover"
+                  />
+                </div>
+                <p className="text-linklot-text-title text-base font-semibold">
+                  {content.title}
+                </p>
+              </div>
+              <div className="mb-4">
+                <p className="text-linklot-text-subtitle font-normal text-sm">
+                  {content.description}
+                </p>
+              </div>
+            </div>
+            <div>
               <div>
-                <div className="flex items-center gap-2">
-                  <div className="flex bg-linklot-input-background-light items-center gap-1 justify-center cursor-pointer rounded-xl px-2 py-1 border border-linklot-border-gray">
-                    <span className="material-symbols-rounded !text-xs material-symbols-filled text-linklot-hashtags-text">
-                      add
-                    </span>
-                    <p className="text-linklot-hashtags-text text-xs">
-                      Add Tag
-                    </p>
-                  </div>
-                  <div>
-                    <div className="bg-linklot-hashtags-background inline-block rounded-xl px-2 py-1 border border-linklot-border-gray">
-                      <p className="text-linklot-hashtags-text text-xs">#ai</p>
+                <div className="flex items-center gap-3 overflow-x-auto">
+                  {content.tags.map((tag) => (
+                    <div className="flex items-center gap-1 cursor-pointer">
+                      <span
+                        className="material-symbols-rounded !text-xl material-symbols-filled"
+                        style={{ color: tag.color }}
+                      >
+                        folder
+                      </span>
+                      <span className="text-linklot-hashtags-text text-sm">
+                        {tag.name}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <hr className="my-4 border-t border-linklot-border-gray" />
+                <div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-[18%] flex bg-linklot-input-background-light items-center gap-1 justify-center cursor-pointer rounded-xl px-2 py-1 border border-linklot-border-gray">
+                      <span className="material-symbols-rounded !text-xs material-symbols-filled text-linklot-hashtags-text">
+                        add
+                      </span>
+                      <p className="text-linklot-hashtags-text text-xs">
+                        Add Tag
+                      </p>
+                    </div>
+                    <div className="w-[85%] flex items-center gap-2 overflow-x-auto">
+                      {content.hashtags.map((hashtag) => (
+                        <div className="bg-linklot-hashtags-background inline-block rounded-xl px-2 py-1 border border-linklot-border-gray">
+                          <p className="text-linklot-hashtags-text text-xs">
+                            #{hashtag.name}
+                          </p>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -196,7 +210,7 @@ const Content = () => {
             </div>
           </div>
         </div>
-      </div>
+      ))}
     </div>
   );
 };

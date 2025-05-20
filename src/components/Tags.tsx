@@ -3,7 +3,7 @@ import { LinklotData } from "../types";
 import NewLot from "./Popups/NewLot";
 import DeleteLot from "./Popups/DeleteLot";
 
-const sortOptions = ["Recent", "Oldest"];
+const sortOptions = ["Recent", "Oldest", "Alphabetical"];
 
 const Tags = ({ data }: { data: LinklotData }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);

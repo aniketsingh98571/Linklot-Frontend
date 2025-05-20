@@ -40,10 +40,72 @@ const data: LinklotData = {
           name: "Productivity",
           color: "#02B99A",
         },
+        {
+          id: 1,
+          name: "Productivity",
+          color: "#02B99A",
+        },
+        {
+          id: 1,
+          name: "Productivity",
+          color: "#02B99A",
+        },
+        {
+          id: 1,
+          name: "Productivity",
+          color: "#02B99A",
+        },
+        {
+          id: 1,
+          name: "Productivity",
+          color: "#02B99A",
+        },
+        {
+          id: 1,
+          name: "Productivity",
+          color: "#02B99A",
+        },
+        {
+          id: 1,
+          name: "Productivity",
+          color: "#02B99A",
+        },
       ],
       thumbnail:
         "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
       hashtags: [
+        {
+          id: 1,
+          name: "google",
+        },
+        {
+          id: 1,
+          name: "google",
+        },
+        {
+          id: 1,
+          name: "google",
+        },
+        {
+          id: 1,
+          name: "google",
+        },
+        {
+          id: 1,
+          name: "google",
+        },
+        {
+          id: 1,
+          name: "google",
+        },
+        {
+          id: 1,
+          name: "google",
+        },
+        {
+          id: 1,
+          name: "google",
+        },
         {
           id: 1,
           name: "google",
@@ -60,7 +122,7 @@ function App() {
       <div className="bg-linklot-background-gray">
         <div className="app-container">
           <Tags data={data} />
-          <Content />
+          <Content data={data} />
         </div>
       </div>
     </div>
