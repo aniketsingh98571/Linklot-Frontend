@@ -1,8 +1,11 @@
+import { Tags as TagsType } from "../../types";
+
 type DeleteLotProps = {
   closeLot: () => void;
+  lotDetailsOpen?: TagsType;
 };
 
-const DeleteLot = ({ closeLot }: DeleteLotProps) => {
+const DeleteLot = ({ closeLot, lotDetailsOpen }: DeleteLotProps) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative border border-linklot-border-gray">

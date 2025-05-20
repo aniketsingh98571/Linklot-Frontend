@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { LinklotData } from "../types";
 import NewLot from "./Popups/NewLot";
 import DeleteLot from "./Popups/DeleteLot";
+import { Tags as TagsType } from "../types";
 
 const sortOptions = ["Recent", "Oldest", "Alphabetical"];
 
@@ -12,6 +13,7 @@ const Tags = ({ data }: { data: LinklotData }) => {
     isNew: true,
   });
   const [deleteLotOpen, setDeleteLotOpen] = useState(false);
+  const [lotDetailsOpen, setLotDetailsOpen] = useState<TagsType>();
   const [selectedOption, setSelectedOption] = useState(sortOptions[0]);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [tagMenuOpen, setTagMenuOpen] = useState<{
@@ -60,6 +62,7 @@ const Tags = ({ data }: { data: LinklotData }) => {
   }, [tagMenuOpen]);
 
   const handleLotOpen = () => {
+    setLotDetailsOpen(undefined);
     setNewLotOpen({
       open: !newLotOpen.open,
       isNew: true,
@@ -82,9 +85,15 @@ const Tags = ({ data }: { data: LinklotData }) => {
         <NewLot
           isNew={newLotOpen.isNew}
           closeLot={() => setNewLotOpen({ open: false, isNew: true })}
+          lotDetailsOpen={lotDetailsOpen}
         />
       )}
-      {deleteLotOpen && <DeleteLot closeLot={() => setDeleteLotOpen(false)} />}
+      {deleteLotOpen && (
+        <DeleteLot
+          lotDetailsOpen={lotDetailsOpen}
+          closeLot={() => setDeleteLotOpen(false)}
+        />
+      )}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4 flex-wrap">
           <button className="cursor-pointer bg-linklot-background-black text-linklot-text-white flex items-center gap-1 py-1 px-2 rounded-md">
@@ -127,6 +136,7 @@ const Tags = ({ data }: { data: LinklotData }) => {
                     <button
                       className="flex cursor-pointer text-linklot-text-title text-sm items-center gap-2 w-full px-4 py-1 hover:bg-linklot-background-black hover:text-linklot-text-white rounded-t-md"
                       onClick={() => {
+                        setLotDetailsOpen(tag);
                         // handle edit logic here
                         setNewLotOpen({
                           open: true,
@@ -143,6 +153,7 @@ const Tags = ({ data }: { data: LinklotData }) => {
                     <button
                       className="flex cursor-pointer items-center gap-2 w-full px-4 py-1 text-red-500 hover:bg-linklot-background-black/10 rounded-b-md"
                       onClick={() => {
+                        setLotDetailsOpen(tag);
                         // handle delete logic here
                         setDeleteLotOpen(true);
                         handleTagMenuClose();

@@ -1,4 +1,12 @@
-const DeleteLink = ({ close }: { close: () => void }) => {
+import { Content } from "../../types";
+
+const DeleteLink = ({
+  content,
+  close,
+}: {
+  content: Content;
+  close: () => void;
+}) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
       <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative border border-linklot-border-gray">

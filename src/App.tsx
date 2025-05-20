@@ -9,22 +9,22 @@ const data: LinklotData = {
     {
       id: 1,
       name: "Productivity",
-      color: "#02B99A",
+      color: "#4ADE80",
     },
     {
       id: 2,
       name: "Research",
-      color: "#7DE2F1",
+      color: "#F472B6",
     },
     {
       id: 3,
       name: "Dev Tools",
-      color: "#F17E91",
+      color: "#F472B6",
     },
     {
       id: 4,
       name: "Social Media",
-      color: "#F9C557",
+      color: "#F472B6",
     },
   ],
   content: [
@@ -38,37 +38,37 @@ const data: LinklotData = {
         {
           id: 1,
           name: "Productivity",
-          color: "#02B99A",
+          color: "#4ADE80",
         },
         {
           id: 1,
           name: "Productivity",
-          color: "#02B99A",
+          color: "#4ADE80",
         },
         {
           id: 1,
           name: "Productivity",
-          color: "#02B99A",
+          color: "#4ADE80",
         },
         {
           id: 1,
           name: "Productivity",
-          color: "#02B99A",
+          color: "#F472B6",
         },
         {
           id: 1,
           name: "Productivity",
-          color: "#02B99A",
+          color: "#F472B6",
         },
         {
           id: 1,
           name: "Productivity",
-          color: "#02B99A",
+          color: "#F472B6",
         },
         {
           id: 1,
           name: "Productivity",
-          color: "#02B99A",
+          color: "#F472B6",
         },
       ],
       thumbnail:

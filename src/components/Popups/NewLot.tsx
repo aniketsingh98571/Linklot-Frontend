@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Tags as TagsType } from "../../types";
 
 const COLORS = [
   "#4ADE80", // green-400
@@ -13,11 +14,12 @@ const COLORS = [
 type NewLotProps = {
   isNew: boolean;
   closeLot: () => void;
+  lotDetailsOpen?: TagsType;
 };
 
-const NewLot = ({ isNew, closeLot }: NewLotProps) => {
-  const [name, setName] = useState("");
-  const [color, setColor] = useState(COLORS[0]);
+const NewLot = ({ isNew, closeLot, lotDetailsOpen }: NewLotProps) => {
+  const [name, setName] = useState(lotDetailsOpen?.name);
+  const [color, setColor] = useState(lotDetailsOpen?.color);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">

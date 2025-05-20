@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import EditLink from "./Popups/EditLink";
 import DeleteLink from "./Popups/DeleteLink";
-import { LinklotData } from "../types";
+import { LinklotData, Content as ContentType } from "../types";
 
 const Content = ({ data }: { data: LinklotData }) => {
   const [link, setLink] = useState("");
@@ -9,6 +9,7 @@ const Content = ({ data }: { data: LinklotData }) => {
   const [deleteLinkOpen, setDeleteLinkOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const [content, setContent] = useState<ContentType>();
 
   const handleAddLink = () => {
     console.log(link);
@@ -32,8 +33,12 @@ const Content = ({ data }: { data: LinklotData }) => {
 
   return (
     <div className="pt-6 flex items-stretch gap-4 h-[500px]">
-      {editLinkOpen && <EditLink close={() => setEditLinkOpen(false)} />}
-      {deleteLinkOpen && <DeleteLink close={() => setDeleteLinkOpen(false)} />}
+      {editLinkOpen && content && (
+        <EditLink content={content} close={() => setEditLinkOpen(false)} />
+      )}
+      {deleteLinkOpen && content && (
+        <DeleteLink content={content} close={() => setDeleteLinkOpen(false)} />
+      )}
       <div className="bg-linklot-background-white rounded-lg p-4 w-1/3 border border-linklot-border-gray h-full">
         <div className="flex items-center gap-2 pb-16">
           <div className="w-2 h-2 bg-[#FE8463] rounded-full"></div>
@@ -78,7 +83,7 @@ const Content = ({ data }: { data: LinklotData }) => {
           </div>
         </div>
         <hr className="my-4 border-t border-linklot-border-gray" />
-        <div className="flex bg-linklot-input-background-light items-center gap-1 justify-center cursor-pointer rounded-xl w-[110px] p-1 border border-linklot-border-gray">
+        <div className=" flex bg-linklot-input-background-light items-center gap-1 justify-center cursor-pointer rounded-xl w-[110px] p-1 border border-linklot-border-gray">
           <span className="material-symbols-rounded !text-xl material-symbols-filled text-linklot-hashtags-text">
             add
           </span>
@@ -103,6 +108,7 @@ const Content = ({ data }: { data: LinklotData }) => {
                   <button
                     className="flex cursor-pointer text-linklot-text-title text-sm items-center gap-2 w-full px-4 py-1 hover:bg-linklot-background-black hover:text-linklot-text-white rounded-t-md"
                     onClick={() => {
+                      setContent(content);
                       setMenuOpen(false);
                       setEditLinkOpen(true);
                     }}
@@ -115,6 +121,7 @@ const Content = ({ data }: { data: LinklotData }) => {
                   <button
                     className="flex cursor-pointer items-center gap-2 w-full px-4 py-1 text-red-500 hover:bg-linklot-background-black/10 rounded-b-md"
                     onClick={() => {
+                      setContent(content);
                       setMenuOpen(false);
                       setDeleteLinkOpen(true);
                     }}
@@ -187,7 +194,7 @@ const Content = ({ data }: { data: LinklotData }) => {
                 <hr className="my-4 border-t border-linklot-border-gray" />
                 <div>
                   <div className="flex items-center gap-2">
-                    <div className="w-[18%] flex bg-linklot-input-background-light items-center gap-1 justify-center cursor-pointer rounded-xl px-2 py-1 border border-linklot-border-gray">
+                    <div className="w-[25%] flex bg-linklot-input-background-light items-center gap-1 justify-center cursor-pointer rounded-xl px-2 py-1 border border-linklot-border-gray">
                       <span className="material-symbols-rounded !text-xs material-symbols-filled text-linklot-hashtags-text">
                         add
                       </span>
@@ -195,7 +202,7 @@ const Content = ({ data }: { data: LinklotData }) => {
                         Add Tag
                       </p>
                     </div>
-                    <div className="w-[85%] flex items-center gap-2 overflow-x-auto">
+                    <div className="w-[70%] flex items-center gap-2 overflow-x-auto">
                       {content.hashtags.map((hashtag) => (
                         <div className="bg-linklot-hashtags-background inline-block rounded-xl px-2 py-1 border border-linklot-border-gray">
                           <p className="text-linklot-hashtags-text text-xs">
