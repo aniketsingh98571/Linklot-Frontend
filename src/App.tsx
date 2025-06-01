@@ -3,6 +3,8 @@ import Header from "./components/Header";
 import Tags from "./components/Tags";
 import Content from "./components/Content";
 import { LinklotData } from "./types";
+import { useEffect } from "react";
+import { get } from "./lib/service";
 
 const data: LinklotData = {
   tags: [
@@ -116,6 +118,16 @@ const data: LinklotData = {
 };
 
 function App() {
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await get({
+        url: "/getbookmarksviasearch",
+        data: { description: "video streaming platform" },
+      });
+      console.log(response, "response");
+    };
+    fetchData();
+  }, []);
   return (
     <div>
       <Header />
