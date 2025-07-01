@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Tags as TagsType } from "../../types";
+import { post } from "../../lib/service";
 
 const COLORS = [
   "#4ADE80", // green-400
@@ -20,6 +21,18 @@ type NewLotProps = {
 const NewLot = ({ isNew, closeLot, lotDetailsOpen }: NewLotProps) => {
   const [name, setName] = useState(lotDetailsOpen?.name);
   const [color, setColor] = useState(lotDetailsOpen?.color);
+
+  const handleSave = async () => {
+    console.log(name, color, "name, color");
+    const response = await post({
+      url: "/createlot",
+      data: {
+        Lot: name,
+        color: color,
+      },
+    });
+    console.log(response, "response");
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
@@ -78,6 +91,7 @@ const NewLot = ({ isNew, closeLot, lotDetailsOpen }: NewLotProps) => {
           <button
             className="px-4 py-2 rounded bg-black text-white hover:bg-gray-800 cursor-pointer"
             type="button"
+            onClick={handleSave}
           >
             Save
           </button>
