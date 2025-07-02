@@ -1,19 +1,79 @@
 import { useState, useRef, useEffect } from "react";
 import EditLink from "./Popups/EditLink";
 import DeleteLink from "./Popups/DeleteLink";
+import AddToLot from "./AddToLot";
 import { LinklotData, Content as ContentType } from "../types";
+import AddTag from "./AddTag";
 
 const Content = ({ data }: { data: LinklotData }) => {
   const [link, setLink] = useState("");
   const [editLinkOpen, setEditLinkOpen] = useState(false);
   const [deleteLinkOpen, setDeleteLinkOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [selectedLots, setSelectedLots] = useState<string[]>([]);
+  const [showTagInput, setShowTagInput] = useState(false);
+  const [tagInputValue, setTagInputValue] = useState("");
+  const [contentTags, setContentTags] = useState<string[]>([]);
   const menuRef = useRef<HTMLDivElement>(null);
   const [content, setContent] = useState<ContentType>();
+  const [mainTags, setMainTags] = useState<string[]>([]);
+
+  // Mock lots data - you can replace this with actual data from props or API
+  const lots = [
+    { id: "1", name: "Work Projects" },
+    { id: "2", name: "Personal Links" },
+    { id: "3", name: "Research" },
+    { id: "4", name: "Bookmarks" },
+    { id: "5", name: "Inspiration" },
+  ];
+
+  const handleCreateLot = () => {
+    console.log("Create new lot");
+    // Add your create lot logic here
+  };
 
   const handleAddLink = () => {
     console.log(link);
   };
+
+  const handleLotToggle = (lotId: string) => {
+    setSelectedLots((prev) =>
+      prev.includes(lotId)
+        ? prev.filter((id) => id !== lotId)
+        : [...prev, lotId]
+    );
+  };
+
+  const handleAddToLot = () => {
+    console.log("Selected lots:", selectedLots);
+    // Don't clear selectedLots here - we want to keep them for display
+  };
+
+  const handleAddTagClick = () => {
+    setShowTagInput(true);
+  };
+
+  const handleTagInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTagInputValue(e.target.value);
+  };
+
+  const handleTagInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && tagInputValue.trim()) {
+      setContentTags((prev) => [...prev, tagInputValue.trim()]);
+      setTagInputValue("");
+      setShowTagInput(false);
+    } else if (e.key === "Escape") {
+      setTagInputValue("");
+      setShowTagInput(false);
+    }
+  };
+
+  const handleRemoveTag = (tagToRemove: string) => {
+    setContentTags((prev) => prev.filter((tag) => tag !== tagToRemove));
+  };
+
+  const handleRemoveMainTag = (tagToRemove: string) =>
+    setMainTags((prev) => prev.filter((tag) => tag !== tagToRemove));
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -74,20 +134,20 @@ const Content = ({ data }: { data: LinklotData }) => {
             Add Link
           </button>
         </div>
-        <div>
-          <div className="flex items-center gap-2 cursor-pointer">
-            <span className="material-symbols-rounded !text-xl material-symbols-filled text-linklot-hashtags-text">
-              folder
-            </span>
-            <p className="text-linklot-hashtags-text text-sm">Add to Lot</p>
-          </div>
-        </div>
+        <AddToLot
+          lots={lots}
+          selectedLots={selectedLots}
+          onLotToggle={handleLotToggle}
+          onAddToLot={handleAddToLot}
+          onCreateLot={handleCreateLot}
+        />
         <hr className="my-4 border-t border-linklot-border-gray" />
-        <div className=" flex bg-linklot-input-background-light items-center gap-1 justify-center cursor-pointer rounded-xl w-[110px] p-1 border border-linklot-border-gray">
-          <span className="material-symbols-rounded !text-xl material-symbols-filled text-linklot-hashtags-text">
-            add
-          </span>
-          <p className="text-linklot-hashtags-text text-sm">Add Tag</p>
+        <div className="flex items-center gap-2 mt-2">
+          <AddTag
+            tags={mainTags}
+            onAdd={(tag) => setMainTags((prev) => [...prev, tag])}
+            onRemove={handleRemoveMainTag}
+          />
         </div>
       </div>
       {data.content.map((content) => (
@@ -191,20 +251,30 @@ const Content = ({ data }: { data: LinklotData }) => {
                     </div>
                   ))}
                 </div>
-                <hr className="my-4 border-t border-linklot-border-gray" />
+                <hr className="my-2 border-t border-linklot-border-gray" />
                 <div>
                   <div className="flex items-center gap-2">
-                    <div className="w-[25%] flex bg-linklot-input-background-light items-center gap-1 justify-center cursor-pointer rounded-xl px-2 py-1 border border-linklot-border-gray">
-                      <span className="material-symbols-rounded !text-xs material-symbols-filled text-linklot-hashtags-text">
-                        add
-                      </span>
-                      <p className="text-linklot-hashtags-text text-xs">
-                        Add Tag
-                      </p>
+                    <div className="w-[25%]">
+                      <div
+                        className={`flex bg-linklot-input-background-light items-center gap-1 justify-center cursor-pointer rounded-xl w-[110px] p-1 border border-linklot-border-gray`}
+                        onClick={() => {
+                          setContent(content);
+                          setMenuOpen(false);
+                          setEditLinkOpen(true);
+                        }}
+                      >
+                        <span className="material-symbols-rounded !text-xl material-symbols-filled text-linklot-hashtags-text">
+                          add
+                        </span>
+                        <p className="text-linklot-hashtags-text text-sm">
+                          Add Tag
+                        </p>
+                      </div>
                     </div>
                     <div className="w-[70%] flex items-center gap-2 overflow-x-auto">
+                      {/* Display existing hashtags */}
                       {content.hashtags.map((hashtag) => (
-                        <div className="bg-linklot-hashtags-background inline-block rounded-xl px-2 py-1 border border-linklot-border-gray">
+                        <div className="bg-linklot-hashtags-background flex items-center gap-2 rounded-xl p-1 border border-linklot-border-gray flex items-center gap-1">
                           <p className="text-linklot-hashtags-text text-xs">
                             #{hashtag.name}
                           </p>
