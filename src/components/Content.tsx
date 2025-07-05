@@ -11,9 +11,6 @@ const Content = ({ data }: { data: LinklotData }) => {
   const [deleteLinkOpen, setDeleteLinkOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedLots, setSelectedLots] = useState<string[]>([]);
-  const [showTagInput, setShowTagInput] = useState(false);
-  const [tagInputValue, setTagInputValue] = useState("");
-  const [contentTags, setContentTags] = useState<string[]>([]);
   const menuRef = useRef<HTMLDivElement>(null);
   const [content, setContent] = useState<ContentType>();
   const [mainTags, setMainTags] = useState<string[]>([]);
@@ -47,29 +44,6 @@ const Content = ({ data }: { data: LinklotData }) => {
   const handleAddToLot = () => {
     console.log("Selected lots:", selectedLots);
     // Don't clear selectedLots here - we want to keep them for display
-  };
-
-  const handleAddTagClick = () => {
-    setShowTagInput(true);
-  };
-
-  const handleTagInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTagInputValue(e.target.value);
-  };
-
-  const handleTagInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && tagInputValue.trim()) {
-      setContentTags((prev) => [...prev, tagInputValue.trim()]);
-      setTagInputValue("");
-      setShowTagInput(false);
-    } else if (e.key === "Escape") {
-      setTagInputValue("");
-      setShowTagInput(false);
-    }
-  };
-
-  const handleRemoveTag = (tagToRemove: string) => {
-    setContentTags((prev) => prev.filter((tag) => tag !== tagToRemove));
   };
 
   const handleRemoveMainTag = (tagToRemove: string) =>
@@ -142,7 +116,7 @@ const Content = ({ data }: { data: LinklotData }) => {
           onCreateLot={handleCreateLot}
         />
         <hr className="my-4 border-t border-linklot-border-gray" />
-        <div className="flex items-center gap-2 mt-2">
+        <div className="flex items-center gap-2 mt-2 overflow-x-auto">
           <AddTag
             tags={mainTags}
             onAdd={(tag) => setMainTags((prev) => [...prev, tag])}

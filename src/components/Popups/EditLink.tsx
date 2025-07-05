@@ -1,6 +1,7 @@
 import { useState } from "react";
 import NewLot from "./NewLot";
 import { Content } from "../../types";
+import AddTag from "../AddTag";
 
 const EditLink = ({
   content,
@@ -10,6 +11,9 @@ const EditLink = ({
   close: () => void;
 }) => {
   const [newLotOpen, setNewLotOpen] = useState(false);
+  const [hashtags, setHashtags] = useState<string[]>(
+    content.hashtags.map((tag) => tag.name)
+  );
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
@@ -43,25 +47,14 @@ const EditLink = ({
             />
           </div>
           <div className="mt-4">
-            <div className="flex items-center gap-2">
-              <div className="flex w-[25%] bg-linklot-input-background-light items-center gap-1 justify-center cursor-pointer rounded-xl px-2 py-1 border border-linklot-border-gray">
-                <span className="material-symbols-rounded !text-xs material-symbols-filled text-linklot-hashtags-text">
-                  add
-                </span>
-                <p className="text-linklot-hashtags-text text-xs">Add Tag</p>
-              </div>
-              <div className="flex w-[70%] items-center gap-2 overflow-x-auto">
-                {content.hashtags.map((tag) => (
-                  <div
-                    key={tag.id}
-                    className="bg-linklot-hashtags-background inline-block rounded-xl px-2 py-1 border border-linklot-border-gray"
-                  >
-                    <p className="text-linklot-hashtags-text text-xs">
-                      #{tag.name}
-                    </p>
-                  </div>
-                ))}
-              </div>
+            <div className="flex items-center gap-2 overflow-x-auto">
+              <AddTag
+                tags={hashtags}
+                onAdd={(tag) => setHashtags([...hashtags, tag])}
+                onRemove={(tag) =>
+                  setHashtags(hashtags.filter((t) => t !== tag))
+                }
+              />
             </div>
           </div>
           <div className="flex items-center gap-8 mt-1 mb-4">
