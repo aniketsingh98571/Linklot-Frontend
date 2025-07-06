@@ -5,6 +5,8 @@ import AddToLot from "./AddToLot";
 import { LinklotData, Content as ContentType } from "../types";
 import AddTag from "./AddTag";
 import { Lot } from "../lib/services/Lots/types";
+import { createLink } from "../lib/services/Links";
+import { useMutation } from "@tanstack/react-query";
 
 const Content = ({ data, lots }: { data: LinklotData; lots: Lot[] }) => {
   const [link, setLink] = useState("");
@@ -15,11 +17,20 @@ const Content = ({ data, lots }: { data: LinklotData; lots: Lot[] }) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const [content, setContent] = useState<ContentType>();
   const [mainTags, setMainTags] = useState<string[]>([]);
-
+  const { mutate: createLinkMutation, isPending: isCreatingLink } = useMutation(
+    {
+      mutationFn: createLink,
+    }
+  );
   const handleAddLink = () => {
     console.log(selectedLots, "selectedLots");
     console.log(mainTags, "mainTags");
     console.log(link, "link");
+    createLinkMutation({
+      url: link,
+      tags: mainTags,
+      lot: selectedLots.map((lot) => parseInt(lot)),
+    });
   };
 
   const handleLotToggle = (lotId: string) => {
@@ -86,10 +97,14 @@ const Content = ({ data, lots }: { data: LinklotData; lots: Lot[] }) => {
             />
           </div>
           <button
-            className="bg-linklot-background-black text-linklot-text-white rounded-md px-2 py-2.5 w-1/5"
+            className="bg-linklot-background-black text-linklot-text-white rounded-md px-2 py-2.5 w-1/5 flex items-center gap-2"
             onClick={handleAddLink}
+            disabled={isCreatingLink}
           >
             Add Link
+            {isCreatingLink && (
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            )}
           </button>
         </div>
         <AddToLot

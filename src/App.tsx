@@ -5,6 +5,7 @@ import Content from "./components/Content";
 import { LinklotData } from "./types";
 import { getLots } from "./lib/services/Lots";
 import { useQuery } from "@tanstack/react-query";
+import { getLinks } from "./lib/services/Links";
 
 const data: LinklotData = {
   tags: [
@@ -122,6 +123,13 @@ function App() {
     queryKey: ["lots"],
     queryFn: getLots,
   });
+
+  const { data: links, isLoading: isLoadingLinks } = useQuery({
+    queryKey: ["links"],
+    queryFn: () => getLinks({ search: "", lot: "" }),
+  });
+
+  console.log(links, "links");
 
   console.log(lots, "lots");
   return (
