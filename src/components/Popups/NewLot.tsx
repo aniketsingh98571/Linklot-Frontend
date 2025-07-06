@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Tags as TagsType } from "../../types";
-import { post } from "../../lib/service";
+import { createLot, updateLot } from "../../lib/services/Lots";
+import { useMutation } from "@tanstack/react-query";
+import { Lot } from "../../lib/services/Lots/types";
 
 const COLORS = [
   "#4ADE80", // green-400
@@ -15,24 +16,34 @@ const COLORS = [
 type NewLotProps = {
   isNew: boolean;
   closeLot: () => void;
-  lotDetailsOpen?: TagsType;
+  lotDetailsOpen?: Lot;
 };
 
 const NewLot = ({ isNew, closeLot, lotDetailsOpen }: NewLotProps) => {
   const [name, setName] = useState(lotDetailsOpen?.name);
   const [color, setColor] = useState(lotDetailsOpen?.color);
+  const { mutate: createLotMutation, isPending: isCreatingLot } = useMutation({
+    mutationFn: createLot,
+  });
+
+  const { mutate: updateLotMutation, isPending: isUpdatingLot } = useMutation({
+    mutationFn: updateLot,
+  });
 
   const handleSave = async () => {
-    console.log(name, color, "name, color");
-    const response = await post({
-      url: "/createlot",
-      data: {
-        Lot: name,
-        color: color,
-      },
-    });
-    console.log(response, "response");
+    console.log(lotDetailsOpen, "lotDetailsOpen");
+    if (isNew) {
+      createLotMutation({ name: name || "", color: color || "#000" });
+    } else {
+      updateLotMutation({
+        id: lotDetailsOpen?.id,
+        name: name || "",
+        color: color || "#000",
+      });
+    }
   };
+
+  const isLoading = isCreatingLot || isUpdatingLot;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
@@ -82,17 +93,22 @@ const NewLot = ({ isNew, closeLot, lotDetailsOpen }: NewLotProps) => {
         {/* Buttons */}
         <div className="flex justify-end space-x-2">
           <button
-            className="px-4 py-2 rounded bg-linklot-background-white border border-linklot-border-gray cursor-pointer"
+            className="px-4 py-2 rounded bg-linklot-background-white border border-linklot-border-gray cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             type="button"
             onClick={closeLot}
+            disabled={isLoading}
           >
             Cancel
           </button>
           <button
-            className="px-4 py-2 rounded bg-black text-white hover:bg-gray-800 cursor-pointer"
+            className="px-4 py-2 rounded bg-black text-white hover:bg-gray-800 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
             type="button"
             onClick={handleSave}
+            disabled={isLoading}
           >
+            {isLoading && (
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            )}
             Save
           </button>
         </div>

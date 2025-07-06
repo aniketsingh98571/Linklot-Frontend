@@ -4,8 +4,9 @@ import DeleteLink from "./Popups/DeleteLink";
 import AddToLot from "./AddToLot";
 import { LinklotData, Content as ContentType } from "../types";
 import AddTag from "./AddTag";
+import { Lot } from "../lib/services/Lots/types";
 
-const Content = ({ data }: { data: LinklotData }) => {
+const Content = ({ data, lots }: { data: LinklotData; lots: Lot[] }) => {
   const [link, setLink] = useState("");
   const [editLinkOpen, setEditLinkOpen] = useState(false);
   const [deleteLinkOpen, setDeleteLinkOpen] = useState(false);
@@ -15,22 +16,10 @@ const Content = ({ data }: { data: LinklotData }) => {
   const [content, setContent] = useState<ContentType>();
   const [mainTags, setMainTags] = useState<string[]>([]);
 
-  // Mock lots data - you can replace this with actual data from props or API
-  const lots = [
-    { id: "1", name: "Work Projects" },
-    { id: "2", name: "Personal Links" },
-    { id: "3", name: "Research" },
-    { id: "4", name: "Bookmarks" },
-    { id: "5", name: "Inspiration" },
-  ];
-
-  const handleCreateLot = () => {
-    console.log("Create new lot");
-    // Add your create lot logic here
-  };
-
   const handleAddLink = () => {
-    console.log(link);
+    console.log(selectedLots, "selectedLots");
+    console.log(mainTags, "mainTags");
+    console.log(link, "link");
   };
 
   const handleLotToggle = (lotId: string) => {
@@ -39,11 +28,6 @@ const Content = ({ data }: { data: LinklotData }) => {
         ? prev.filter((id) => id !== lotId)
         : [...prev, lotId]
     );
-  };
-
-  const handleAddToLot = () => {
-    console.log("Selected lots:", selectedLots);
-    // Don't clear selectedLots here - we want to keep them for display
   };
 
   const handleRemoveMainTag = (tagToRemove: string) =>
@@ -112,8 +96,6 @@ const Content = ({ data }: { data: LinklotData }) => {
           lots={lots}
           selectedLots={selectedLots}
           onLotToggle={handleLotToggle}
-          onAddToLot={handleAddToLot}
-          onCreateLot={handleCreateLot}
         />
         <hr className="my-4 border-t border-linklot-border-gray" />
         <div className="flex items-center gap-2 mt-2 overflow-x-auto">

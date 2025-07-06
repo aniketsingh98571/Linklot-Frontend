@@ -1,16 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
-
-interface Lot {
-  id: string;
-  name: string;
-}
+import { Lot } from "../lib/services/Lots/types";
+import NewLot from "./Popups/NewLot";
 
 interface AddToLotProps {
   lots: Lot[];
   selectedLots: string[];
   onLotToggle: (lotId: string) => void;
-  onAddToLot: () => void;
-  onCreateLot: () => void;
   className?: string;
 }
 
@@ -18,12 +13,11 @@ const AddToLot: React.FC<AddToLotProps> = ({
   lots,
   selectedLots,
   onLotToggle,
-  onAddToLot,
-  onCreateLot,
   className = "",
 }) => {
   const [lotDropdownOpen, setLotDropdownOpen] = useState(false);
   const lotDropdownRef = useRef<HTMLDivElement>(null);
+  const [newLotOpen, setNewLotOpen] = useState(false);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -45,12 +39,15 @@ const AddToLot: React.FC<AddToLotProps> = ({
   }, [lotDropdownOpen]);
 
   const handleAddToLotClick = () => {
-    onAddToLot();
+    // onAddToLot();
     setLotDropdownOpen(false);
   };
 
   return (
     <div className={`flex items-center gap-2 ${className}`}>
+      {newLotOpen && (
+        <NewLot closeLot={() => setNewLotOpen(false)} isNew={true} />
+      )}
       <div className="relative w-[28%]">
         <div
           className="flex items-center gap-2 cursor-pointer w-full"
@@ -77,16 +74,16 @@ const AddToLot: React.FC<AddToLotProps> = ({
                     <div
                       key={lot.id}
                       className="flex items-center gap-2 p-2 hover:bg-linklot-input-background-light rounded cursor-pointer"
-                      onClick={() => onLotToggle(lot.id)}
+                      onClick={() => onLotToggle(lot.id?.toString() || "")}
                     >
                       <div
                         className={`w-4 h-4 border border-linklot-border-gray rounded flex items-center justify-center ${
-                          selectedLots.includes(lot.id)
+                          selectedLots.includes(lot.id?.toString() || "")
                             ? "bg-linklot-background-black border-linklot-background-black"
                             : ""
                         }`}
                       >
-                        {selectedLots.includes(lot.id) && (
+                        {selectedLots.includes(lot.id?.toString() || "") && (
                           <span className="material-symbols-rounded !text-xs text-linklot-text-white">
                             check
                           </span>
@@ -116,7 +113,7 @@ const AddToLot: React.FC<AddToLotProps> = ({
                   </p>
                   <button
                     className="bg-linklot-background-black text-linklot-text-white rounded-md px-4 py-2 text-sm"
-                    onClick={onCreateLot}
+                    onClick={() => setNewLotOpen(true)}
                   >
                     Create Lot
                   </button>
@@ -131,7 +128,7 @@ const AddToLot: React.FC<AddToLotProps> = ({
       {selectedLots.length > 0 && (
         <div className="flex items-center gap-2 w-[65%] overflow-x-auto">
           {selectedLots.map((lotId) => {
-            const lot = lots.find((l) => l.id === lotId);
+            const lot = lots.find((l) => l.id?.toString() === lotId);
             return lot ? (
               <div
                 key={lotId}

@@ -3,6 +3,8 @@ import Header from "./components/Header";
 import Tags from "./components/Tags";
 import Content from "./components/Content";
 import { LinklotData } from "./types";
+import { getLots } from "./lib/services/Lots";
+import { useQuery } from "@tanstack/react-query";
 
 const data: LinklotData = {
   tags: [
@@ -116,13 +118,19 @@ const data: LinklotData = {
 };
 
 function App() {
+  const { data: lots, isLoading: isLoadingLots } = useQuery({
+    queryKey: ["lots"],
+    queryFn: getLots,
+  });
+
+  console.log(lots, "lots");
   return (
     <div>
       <Header />
       <div className="bg-linklot-background-gray">
         <div className="app-container">
-          <Tags data={data} />
-          <Content data={data} />
+          <Tags isLoading={isLoadingLots} lots={lots || []} />
+          <Content data={data} lots={lots || []} />
         </div>
       </div>
     </div>

@@ -45,7 +45,11 @@ export const patch = async ({ url, data, headers }: RequestConfig) => {
   return response.data;
 };
 
-export const del = async ({ url, params, headers }: RequestConfig) => {
+export const deleteRequest = async ({
+  url,
+  params,
+  headers,
+}: RequestConfig) => {
   const response = await api.delete(url, {
     params,
     headers: headers || {},
