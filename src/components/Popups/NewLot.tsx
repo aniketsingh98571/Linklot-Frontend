@@ -2,6 +2,8 @@ import { useState } from "react";
 import { createLot, updateLot } from "../../lib/services/Lots";
 import { useMutation } from "@tanstack/react-query";
 import { Lot } from "../../lib/services/Lots/types";
+import { toast, ToastContainer } from "react-toastify";
+import { FREE_VERSION_LOTS_LIMIT } from "../../constant";
 
 const COLORS = [
   "#4ADE80", // green-400
@@ -17,9 +19,10 @@ type NewLotProps = {
   isNew: boolean;
   closeLot: () => void;
   lotDetailsOpen?: Lot;
+  lots: Lot[];
 };
 
-const NewLot = ({ isNew, closeLot, lotDetailsOpen }: NewLotProps) => {
+const NewLot = ({ isNew, closeLot, lotDetailsOpen, lots }: NewLotProps) => {
   const [name, setName] = useState(lotDetailsOpen?.name);
   const [color, setColor] = useState(lotDetailsOpen?.color);
   const { mutate: createLotMutation, isPending: isCreatingLot } = useMutation({
@@ -33,6 +36,13 @@ const NewLot = ({ isNew, closeLot, lotDetailsOpen }: NewLotProps) => {
   const handleSave = async () => {
     console.log(lotDetailsOpen, "lotDetailsOpen");
     if (isNew) {
+      console.log(lots, "lots");
+      if (lots.length === FREE_VERSION_LOTS_LIMIT) {
+        toast.error(
+          `You can only have ${FREE_VERSION_LOTS_LIMIT} lots in free version`
+        );
+        return;
+      }
       createLotMutation({ name: name || "", color: color || "#000" });
     } else {
       updateLotMutation({
@@ -111,6 +121,7 @@ const NewLot = ({ isNew, closeLot, lotDetailsOpen }: NewLotProps) => {
             )}
             Save
           </button>
+          <ToastContainer />
         </div>
       </div>
     </div>

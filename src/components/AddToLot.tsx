@@ -46,7 +46,11 @@ const AddToLot: React.FC<AddToLotProps> = ({
   return (
     <div className={`flex items-center gap-2 ${className}`}>
       {newLotOpen && (
-        <NewLot closeLot={() => setNewLotOpen(false)} isNew={true} />
+        <NewLot
+          lots={lots}
+          closeLot={() => setNewLotOpen(false)}
+          isNew={true}
+        />
       )}
       <div className="relative w-[28%]">
         <div

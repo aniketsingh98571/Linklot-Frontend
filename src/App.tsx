@@ -6,6 +6,7 @@ import { LinklotData } from "./types";
 import { getLots } from "./lib/services/Lots";
 import { useQuery } from "@tanstack/react-query";
 import { getLinks } from "./lib/services/Links";
+import { useState } from "react";
 
 const data: LinklotData = {
   tags: [
@@ -123,8 +124,9 @@ function App() {
     queryKey: ["lots"],
     queryFn: getLots,
   });
+  const [selectedLot, setSelectedLot] = useState("all");
 
-  const { data: links, isLoading: isLoadingLinks } = useQuery({
+  const { data: links } = useQuery({
     queryKey: ["links"],
     queryFn: () => getLinks({ search: "", lot: "" }),
   });
@@ -137,7 +139,12 @@ function App() {
       <Header />
       <div className="bg-linklot-background-gray">
         <div className="app-container">
-          <Tags isLoading={isLoadingLots} lots={lots || []} />
+          <Tags
+            isLoading={isLoadingLots}
+            lots={lots || []}
+            selectedLot={selectedLot}
+            setSelectedLot={setSelectedLot}
+          />
           <Content data={data} lots={lots || []} />
         </div>
       </div>

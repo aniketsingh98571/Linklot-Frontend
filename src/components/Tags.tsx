@@ -6,9 +6,27 @@ import { Lot } from "../lib/services/Lots/types";
 
 const sortOptions = ["Recent", "Oldest", "Alphabetical"];
 
+// Utility function to convert hex color to light shade
+const getLightShade = (hexColor: string, opacity: number = 0.5): string => {
+  // Remove # if present
+  const hex = hexColor.replace("#", "");
+
+  console.log(hexColor, "color");
+
+  // Convert hex to RGB
+  const r = parseInt(hex.substr(0, 2), 16);
+  const g = parseInt(hex.substr(2, 2), 16);
+  const b = parseInt(hex.substr(4, 2), 16);
+
+  // Return rgba with opacity
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+};
+
 type TagsProps = {
   lots: Lot[];
   isLoading: boolean;
+  selectedLot: string;
+  setSelectedLot: (lot: string) => void;
 };
 
 const TagsSkeleton = () => {
@@ -55,7 +73,7 @@ const TagsSkeleton = () => {
   );
 };
 
-const Tags = ({ isLoading, lots }: TagsProps) => {
+const Tags = ({ isLoading, lots, selectedLot, setSelectedLot }: TagsProps) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [newLotOpen, setNewLotOpen] = useState({
     open: false,
@@ -128,6 +146,11 @@ const Tags = ({ isLoading, lots }: TagsProps) => {
     setTagMenuOpen({ id: null, anchor: null });
   };
 
+  const handleLotSelect = (lotName: string) => {
+    setSelectedLot(lotName);
+  };
+
+  console.log(selectedLot, "selected lot");
   return (
     <div className="pt-6">
       {newLotOpen.open && (
@@ -135,6 +158,7 @@ const Tags = ({ isLoading, lots }: TagsProps) => {
           isNew={newLotOpen.isNew}
           closeLot={() => setNewLotOpen({ open: false, isNew: true })}
           lotDetailsOpen={lotDetailsOpen}
+          lots={lots}
         />
       )}
       {deleteLotOpen && (
@@ -148,16 +172,50 @@ const Tags = ({ isLoading, lots }: TagsProps) => {
       ) : (
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4 flex-wrap">
-            <button className="cursor-pointer bg-linklot-background-black text-linklot-text-white flex items-center gap-1 py-1 px-2 rounded-md">
-              <span className="material-symbols-rounded !text-xl text-linklot-text-white">
+            <button
+              className={`cursor-pointer flex items-center gap-1 py-1 px-2 rounded-md transition-colors ${
+                selectedLot === "all"
+                  ? "bg-linklot-background-black text-linklot-text-white"
+                  : "bg-transparent text-linklot-hashtags-text hover:bg-linklot-tags-hover"
+              }`}
+              onClick={() => handleLotSelect("all")}
+            >
+              <span
+                className={`material-symbols-rounded !text-xl ${
+                  selectedLot === "all"
+                    ? "text-linklot-text-white"
+                    : "text-linklot-hashtags-text"
+                }`}
+              >
                 language
               </span>
-              <span className="text-linklot-text-white">All Links</span>
+              <span
+                className={
+                  selectedLot === "all"
+                    ? "text-linklot-text-white"
+                    : "text-linklot-hashtags-text"
+                }
+              >
+                All Links
+              </span>
             </button>
             <div className="flex items-center gap-4">
               {lots.map((tag: Lot) => (
                 <div key={tag.id} className="relative group">
-                  <div className="flex items-center gap-1 cursor-pointer rounded-md transition-colors group/tag hover:bg-linklot-tags-hover px-2 py-1">
+                  <div
+                    className={`flex items-center gap-1 cursor-pointer rounded-md transition-colors group/tag px-2 py-1 ${
+                      selectedLot === tag.name
+                        ? ""
+                        : "hover:bg-linklot-tags-hover"
+                    }`}
+                    style={{
+                      backgroundColor:
+                        selectedLot === tag.name
+                          ? getLightShade(tag.color || "#000")
+                          : "transparent",
+                    }}
+                    onClick={() => handleLotSelect(tag.name)}
+                  >
                     <button className="flex items-center gap-1 cursor-pointer bg-transparent">
                       <span
                         className="material-symbols-rounded !text-xl material-symbols-filled"

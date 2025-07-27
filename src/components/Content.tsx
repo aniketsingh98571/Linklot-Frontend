@@ -63,7 +63,11 @@ const Content = ({ data, lots }: { data: LinklotData; lots: Lot[] }) => {
   return (
     <div className="pt-6 flex items-stretch gap-4 h-[500px]">
       {editLinkOpen && content && (
-        <EditLink content={content} close={() => setEditLinkOpen(false)} />
+        <EditLink
+          content={content}
+          lots={lots}
+          close={() => setEditLinkOpen(false)}
+        />
       )}
       {deleteLinkOpen && content && (
         <DeleteLink content={content} close={() => setDeleteLinkOpen(false)} />

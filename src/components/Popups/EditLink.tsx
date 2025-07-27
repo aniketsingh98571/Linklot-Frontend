@@ -2,23 +2,40 @@ import { useState } from "react";
 import NewLot from "./NewLot";
 import { Content } from "../../types";
 import AddTag from "../AddTag";
+import AddToLot from "../AddToLot";
+import { Lot } from "../../lib/services/Lots/types";
 
 const EditLink = ({
   content,
   close,
+  lots,
 }: {
   content: Content;
+  lots: Lot[];
   close: () => void;
 }) => {
   const [newLotOpen, setNewLotOpen] = useState(false);
+  const [selectedLots, setSelectedLots] = useState<string[]>([]);
   const [hashtags, setHashtags] = useState<string[]>(
     content.hashtags.map((tag) => tag.name)
   );
 
+  const handleLotToggle = (lotId: string) => {
+    setSelectedLots((prev) =>
+      prev.includes(lotId)
+        ? prev.filter((id) => id !== lotId)
+        : [...prev, lotId]
+    );
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
       {newLotOpen && (
-        <NewLot isNew={true} closeLot={() => setNewLotOpen(false)} />
+        <NewLot
+          lots={lots}
+          isNew={true}
+          closeLot={() => setNewLotOpen(false)}
+        />
       )}
       <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative border border-linklot-border-gray">
         <div className="flex items-center justify-between mb-4">
@@ -58,7 +75,7 @@ const EditLink = ({
             </div>
           </div>
           <div className="flex items-center gap-8 mt-1 mb-4">
-            <div
+            {/* <div
               className="flex items-center gap-1 cursor-pointer"
               onClick={() => {
                 setNewLotOpen(true);
@@ -71,7 +88,12 @@ const EditLink = ({
               <span className="text-linklot-hashtags-text text-sm">
                 New Lot
               </span>
-            </div>
+            </div> */}
+            <AddToLot
+              lots={lots}
+              selectedLots={selectedLots}
+              onLotToggle={handleLotToggle}
+            />
             <div className="flex items-center gap-1 w-[70%] overflow-x-auto">
               {/* <div className="flex w-[70%] items-center gap-2 overflow-x-auto"> */}
               {content.tags.map((tag) => (
