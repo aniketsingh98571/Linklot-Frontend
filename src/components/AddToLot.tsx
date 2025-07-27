@@ -136,20 +136,20 @@ const AddToLot: React.FC<AddToLotProps> = ({
             return lot ? (
               <div
                 key={lotId}
-                className="group flex items-center gap-1 px-2 py-1 rounded-md hover:bg-gray-50 transition-all duration-200"
+                className="group  hover:bg-linklot-tags-hover flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200"
               >
                 <span
-                  className="material-symbols-rounded !text-sm"
+                  className="material-symbols-rounded !text-xl"
                   style={{ color: lot.color }}
                 >
                   folder
                 </span>
-                <p className="text-gray-500 text-sm">{lot.name}</p>
+                <p className="text-gray-600 text-sm">{lot.name}</p>
                 <button
                   onClick={() => onLotToggle(lotId)}
-                  className="ml-1 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:text-red-500"
+                  className="text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:text-gray-700"
                 >
-                  <span className="material-symbols-rounded !text-xs">
+                  <span className="material-symbols-rounded !text-xl text-linklot-hashtags-text">
                     close
                   </span>
                 </button>

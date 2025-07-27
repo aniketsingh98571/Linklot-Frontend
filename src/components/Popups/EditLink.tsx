@@ -89,11 +89,14 @@ const EditLink = ({
                 New Lot
               </span>
             </div> */}
-            <AddToLot
-              lots={lots}
-              selectedLots={selectedLots}
-              onLotToggle={handleLotToggle}
-            />
+            <div className="w-[20%]">
+              <AddToLot
+                lots={lots}
+                selectedLots={selectedLots}
+                onLotToggle={handleLotToggle}
+              />
+            </div>
+
             <div className="flex items-center gap-1 w-[70%] overflow-x-auto">
               {/* <div className="flex w-[70%] items-center gap-2 overflow-x-auto"> */}
               {content.tags.map((tag) => (
